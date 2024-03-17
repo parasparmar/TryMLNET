@@ -1,0 +1,15 @@
+<#@ template language="C#" debug="True" hostSpecific="True"                    #>
+<#@ CleanupBehavior processor="T4VSHost" CleanupAfterProcessingtemplate="true" #>
+<#@ output extension=".generated.cs"                                           #>
+
+<#@ include file="$(LinqToDBT4SqlServerTemplatesPath)LinqToDB.SqlServer.Tools.ttinclude" once="true" #>
+<#@ include file="$(LinqToDBT4SqlServerTemplatesPath)PluralizationService.ttinclude"     once="true" #>
+<#
+	// DataContext settings
+	NamespaceName                       = "Models";           // DataContext class namespace name
+	DataContextName                     = "NorthwindDb";           // DataContext class name
+	LoadSqlServerMetadata("MAINFRAME-007", "Northwind");
+
+
+	GenerateModel();
+#>
