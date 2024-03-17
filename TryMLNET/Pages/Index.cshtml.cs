@@ -39,16 +39,16 @@ namespace TryMLNET.Pages
                     cn.Close();
             }
 
-            
-            ////Load sample data
-            //var sampleData = new MLModel.ModelInput()
-            //{
-            //    MonthlySales = DateTime.Parse("01-10-1997 00:00:00"),
-            //    CustomerID = @"ALFKI",
-            //};
 
-            ////Load model and predict output
-            //var result = MLModel.Predict(sampleData);
+            ////Load sample data
+            var sampleData = new MLModel.ModelInput()
+            {
+                MonthlySales = DateTime.Parse("01-10-1997 00:00:00"),
+                CustomerID = @"ALFKI",
+            };
+
+            //Load model and predict output
+            var result = MLModel.Predict(sampleData);
 
         }
     }
