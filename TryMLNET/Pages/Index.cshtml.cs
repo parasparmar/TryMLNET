@@ -14,6 +14,8 @@ namespace TryMLNET.Pages
 
         public void OnGet()
         {
+
+
             ////Load sample data
             //var sampleData = new MLModel.ModelInput()
             //{
