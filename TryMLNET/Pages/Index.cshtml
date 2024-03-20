@@ -6,11 +6,12 @@
     ViewData["Title"] = "Home page";
 }
 
+
 <div class="text-center">
     <h1 class="display-4">Northwind</h1>
-    <p>Monthly Customer wise Sales Data</p>    
-    <table>
-        <thead >
+    <p>Monthly Customer wise Sales Data</p>
+    <table id="example" class="display" style="width:100%">
+        <thead>
         <th>MonthlySales</th>
         <th>CustomerID</th>
         <th>SaleAmount</th>
@@ -19,13 +20,19 @@
             @{
                 foreach (var item in Model.Customers)
                 {
-                    <tr >
+                    <tr>
                         <td>@item.MonthlySales</td>
                         <td>@item.CustomerId</td>
                         <td>$@item.SaleAmount</td>
                     </tr>
                 }
-            }            
-        </tbody>        
+            }
+        </tbody>
     </table>
 </div>
+
+@section Scripts {
+    <script>
+        let table = new DataTable('#example');
+    </script>
+}
