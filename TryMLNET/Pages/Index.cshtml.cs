@@ -29,7 +29,7 @@ namespace TryMLNET.Pages
                     {                        
                         Customers.Add(new Customer
                         {
-                            MonthlySales = (DateTime)r.GetDateTime(0),
+                            MonthlySales = ((DateTime)r.GetDateTime(0)).ToLocalTime(),
                             CustomerId = (string)r.GetSqlString(1),
                             SaleAmount = r.GetDouble(2)
                         });
