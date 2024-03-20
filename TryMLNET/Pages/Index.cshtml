@@ -1,10 +1,38 @@
 ﻿@page
+@using System.Data
+@using System.Data.SqlClient;
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
 }
 
+
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Northwind</h1>
+    <p>Monthly Customer wise Sales Data</p>
+    <table id="example" class="display" style="width:80%">
+        <thead>
+        <th>MonthlySales</th>
+        <th>CustomerID</th>
+        <th>SaleAmount</th>
+        </thead>
+        <tbody>
+            @{
+                foreach (var item in Model.Customers)
+                {
+                    <tr>
+                        <td>@item.MonthlySales</td>
+                        <td>@item.CustomerId</td>
+                        <td>$@item.SaleAmount</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
 </div>
+
+@section Scripts {
+    <script>
+        let table = new DataTable('#example');
+    </script>
+}

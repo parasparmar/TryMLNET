@@ -56,7 +56,7 @@ namespace TryMLNET
 
         #endregion
 
-        private static string MLNetModelPath = Path.GetFullPath("MLModel.mlnet");
+        private static string MLNetModelPath = Path.GetFullPath("ML/MLModel.mlnet");
 
         public static readonly Lazy<PredictionEngine<ModelInput, ModelOutput>> PredictEngine = new Lazy<PredictionEngine<ModelInput, ModelOutput>>(() => CreatePredictEngine(), true);
 

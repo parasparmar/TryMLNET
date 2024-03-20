@@ -5,9 +5,27 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="linq2db.AspNet" Version="5.4.0" />
+    <PackageReference Include="linq2db.SqlServer" Version="5.4.0" />
     <PackageReference Include="Microsoft.ML" Version="3.0.1" />
     <PackageReference Include="Microsoft.ML.FastTree" Version="3.0.1" />
     <PackageReference Include="Plotly.NET" Version="4.2.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Models\Northwind.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Northwind.generated.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Models\Northwind.generated.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Northwind.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
 </Project>
