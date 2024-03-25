@@ -9,6 +9,7 @@
     <PackageReference Include="linq2db.SqlServer" Version="5.4.0" />
     <PackageReference Include="Microsoft.ML" Version="3.0.1" />
     <PackageReference Include="Microsoft.ML.FastTree" Version="3.0.1" />
+    <PackageReference Include="Microsoft.ML.TimeSeries" Version="3.0.1" />
     <PackageReference Include="Plotly.NET" Version="4.2.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
   </ItemGroup>
@@ -27,5 +28,10 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Northwind.tt</DependentUpon>
     </Compile>
+  </ItemGroup>
+  <ItemGroup Label="MLModel">
+    <None Include="MLModel.mlnet">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>

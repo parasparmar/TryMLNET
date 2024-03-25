@@ -5,9 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.ML.Data;
-using Microsoft.ML.Trainers.FastTree;
-using Microsoft.ML.Trainers;
 using Microsoft.ML;
 using System.Data.SqlClient;
 using Microsoft.ML.Data;
@@ -90,10 +87,7 @@ namespace TryMLNET
         public static IEstimator<ITransformer> BuildPipeline(MLContext mlContext)
         {
             // Data process configuration with pipeline data transformations
-            var pipeline = mlContext.Transforms.Text.FeaturizeText(inputColumnName:@"CustomerID",outputColumnName:@"CustomerID")      
-                                    .Append(mlContext.Transforms.Conversion.ConvertType(@"MonthlySales", @"MonthlySales"))      
-                                    .Append(mlContext.Transforms.Concatenate(@"Features", new []{@"CustomerID",@"MonthlySales"}))      
-                                    .Append(mlContext.Regression.Trainers.FastForest(new FastForestRegressionTrainer.Options(){NumberOfTrees=4,NumberOfLeaves=4,FeatureFraction=1F,LabelColumnName=@"SaleAmount",FeatureColumnName=@"Features"}));
+            var pipeline = mlContext.Forecasting.ForecastBySsa(windowSize:27,seriesLength:105,trainSize:636,horizon:10,outputColumnName:@"SaleAmount",inputColumnName:@"SaleAmount",confidenceLowerBoundColumn:@"SaleAmount_LB",confidenceUpperBoundColumn:@"SaleAmount_UB");
 
             return pipeline;
         }

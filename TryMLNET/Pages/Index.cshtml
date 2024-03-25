@@ -11,7 +11,14 @@
     <h1 class="display-4">Northwind</h1>
     <p>Monthly Customer wise Sales Data</p>
     <div class="col-6">
-        @Model.MLResult.ToString()
+        <ul>
+            @{
+                foreach (var item in Model.results)
+                {
+                    <li>@item</li>
+                }
+            }            
+        </ul>        
     </div>
 
     <table id="example" class="display" style="width:80%">

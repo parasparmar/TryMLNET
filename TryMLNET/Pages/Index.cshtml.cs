@@ -16,7 +16,9 @@ namespace TryMLNET.Pages
     {
         private readonly ILogger<IndexModel> _logger;
         public List<Customer> Customers = new List<Customer>();
-        public string MLResult = string.Empty;
+        public List<string> results = new List<string>();
+
+
         public IndexModel(ILogger<IndexModel> logger)
         {
             _logger = logger;
@@ -29,14 +31,16 @@ namespace TryMLNET.Pages
             using (SqlConnection cn = new SqlConnection(cstr))
             {
                 cn.Open();
-                var qry = @"SELECT TOP (100) PERCENT CONVERT(Date, CONVERT(varchar, YEAR(A.OrderDate)) + '-' + CONVERT(varchar, MONTH(A.OrderDate)) + '-' + CONVERT(varchar, 1)) AS MonthlySales
+                var qry = @"SELECT 
+                            Datefromparts(YEAR(A.OrderDate),MONTH(A.OrderDate),1) AS MonthlySales
                             , A.CustomerID
-                            , SUM(B.UnitPrice * B.Quantity - B.Discount) AS SaleAmount
+                            , Round(SUM((B.UnitPrice * B.Quantity) * (1 - B.Discount)),2) AS SaleAmount
                             FROM dbo.Orders AS A 
                             INNER JOIN dbo.[Order Details] AS B ON B.OrderID = A.OrderID
                             WHERE 1=1
                             And CustomerID = 'ALFKI'
-                            GROUP BY CONVERT(Date, CONVERT(varchar, YEAR(A.OrderDate)) + '-' + CONVERT(varchar, MONTH(A.OrderDate)) + '-' + CONVERT(varchar, 1))
+                            GROUP BY 
+                            DATEFROMPARTS(YEAR(A.OrderDate), MONTH(A.OrderDate), 1)
                             , A.CustomerID
                             order by CustomerID, MonthlySales";
                 using (SqlCommand cmd = new SqlCommand(qry, cn))
@@ -56,31 +60,38 @@ namespace TryMLNET.Pages
                     cn.Close();
             }
 
-            MLContext mlContext = new MLContext();
+            var outputSeries = new List<MLModel.ModelOutput>();
+            var dates = new List<DateTime>();
+            DateTime from = DateTime.Parse("1998-10-01");
+            DateTime to = DateTime.Parse("2000-10-01");
+            for (var dt = from; dt <= to; dt = dt.AddMonths(1))
+            {
+                dates.Add(dt);
+            }
 
-            IDataView trainingData = mlContext.Data.LoadFromEnumerable(Customers);
+            foreach (var i in Customers)
+            {
+                foreach (var d in dates)
+                {
+                    var j = new MLModel.ModelInput()
+                    {
+                        MonthlySales = d,
+                        CustomerID = i.CustomerId
+                    };
+                    outputSeries.Add(MLModel.Predict(j));
+                }
+            }
 
-            // 2. Specify data preparation and model training pipeline
-            var pipeline = mlContext.Transforms.Concatenate("Features", new[] { "MonthlySales" })
-                .Append(mlContext.Regression.Trainers.FastForest());
-            
-
-            // 3. Train model
-            var model = pipeline.Fit(trainingData);
-
-
-            // 4. Make a prediction
-            var monthlySales = new Customer {
-                MonthlySales = DateTime.Parse("01-10-1997 00:00:00"),
-                CustomerId = @"ALFKI"
-            };
-            var saleAmount = mlContext.Model.CreatePredictionEngine<Customer, PredictionCustomerModel>(model).Predict(monthlySales);
-
-
-            //Load model and predict output
-
-            MLResult = $"Predicted Monthly Sales for {monthlySales.CustomerId}: {monthlySales.MonthlySales.ToLongDateString} sq ft= {saleAmount.SaleAmount:C}k"; // JsonSerializer.Serialize(saleAmount);
-
+            foreach (var d in outputSeries)
+            {
+                Customers.Add(new Customer
+                {
+                    CustomerId = d.CustomerID,
+                    MonthlySales =d.MonthlySales,
+                    SaleAmount = d.SaleAmount
+                });
+                results.Add($"Predicted Monthly Sales : {d.CustomerID}: {d.MonthlySales} : Sales Amount : {d.Score}");
+            }
         }
     }
 }

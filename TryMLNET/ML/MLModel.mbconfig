@@ -1,5 +1,5 @@
 ﻿{
-  "Scenario": "Regression",
+  "Scenario": "Forecasting",
   "DataSource": {
     "Type": "SQL",
     "Version": 1,
@@ -22,7 +22,7 @@
       },
       {
         "ColumnName": "SaleAmount",
-        "ColumnPurpose": "Label",
+        "ColumnPurpose": "Feature",
         "ColumnDataFormat": "Single",
         "IsCategorical": false,
         "Type": "Column",
@@ -46,113 +46,124 @@
       {
         "Version": 1,
         "Type": "Trial",
-        "TrainerName": "FastForestRegression",
-        "Score": 0.13192838079020647,
-        "RuntimeInSeconds": 1.63,
+        "TrainerName": "ForecastBySsa",
+        "Score": 2574.1073283412147,
+        "RuntimeInSeconds": 0.026,
         "Parameter": {
-          "_SCHEMA_": "e0 * e1 * e2 * e4",
+          "_SCHEMA_": "e0",
           "e0": {
-            "InputColumnName": "CustomerID",
-            "OutputColumnName": "CustomerID"
-          },
-          "e1": {
-            "OutputColumnNames": [
-              "MonthlySales"
-            ],
-            "InputColumnNames": [
-              "MonthlySales"
-            ],
-            "TargetType": "Single"
-          },
-          "e2": {
-            "InputColumnNames": [
-              "CustomerID",
-              "MonthlySales"
-            ],
-            "OutputColumnName": "Features"
-          },
-          "e4": {
-            "NumberOfTrees": 4,
-            "NumberOfLeaves": 4,
-            "FeatureFraction": 1.0,
-            "LabelColumnName": "SaleAmount",
-            "FeatureColumnName": "Features"
+            "WindowSize": 27,
+            "SeriesLength": 105,
+            "TrainSize": 636,
+            "Horizon": 10,
+            "OutputColumnName": "SaleAmount",
+            "InputColumnName": "SaleAmount",
+            "ConfidenceLowerBoundColumn": "SaleAmount_LB",
+            "ConfidenceUpperBoundColumn": "SaleAmount_UB"
           }
         }
       },
       {
         "Version": 1,
         "Type": "Trial",
-        "TrainerName": "FastTreeRegression",
-        "Score": -0.25161928461191224,
-        "RuntimeInSeconds": 0.366,
+        "TrainerName": "ForecastBySsa",
+        "Score": 2574.1073283412147,
+        "RuntimeInSeconds": 0.025,
         "Parameter": {
-          "_SCHEMA_": "e0 * e1 * e2 * e3",
+          "_SCHEMA_": "e0",
           "e0": {
-            "InputColumnName": "CustomerID",
-            "OutputColumnName": "CustomerID"
-          },
-          "e1": {
-            "OutputColumnNames": [
-              "MonthlySales"
-            ],
-            "InputColumnNames": [
-              "MonthlySales"
-            ],
-            "TargetType": "Single"
-          },
-          "e2": {
-            "InputColumnNames": [
-              "CustomerID",
-              "MonthlySales"
-            ],
-            "OutputColumnName": "Features"
-          },
-          "e3": {
-            "NumberOfLeaves": 4,
-            "MinimumExampleCountPerLeaf": 20,
-            "NumberOfTrees": 4,
-            "MaximumBinCountPerFeature": 254,
-            "FeatureFraction": 1.0,
-            "LearningRate": 0.099999999999999978,
-            "LabelColumnName": "SaleAmount",
-            "FeatureColumnName": "Features",
-            "DiskTranspose": false
+            "WindowSize": 27,
+            "SeriesLength": 31,
+            "TrainSize": 636,
+            "Horizon": 10,
+            "OutputColumnName": "SaleAmount",
+            "InputColumnName": "SaleAmount",
+            "ConfidenceLowerBoundColumn": "SaleAmount_LB",
+            "ConfidenceUpperBoundColumn": "SaleAmount_UB"
+          }
+        }
+      },
+      {
+        "Version": 1,
+        "Type": "Trial",
+        "TrainerName": "ForecastBySsa",
+        "Score": 2574.1073283412147,
+        "RuntimeInSeconds": 0.027,
+        "Parameter": {
+          "_SCHEMA_": "e0",
+          "e0": {
+            "WindowSize": 27,
+            "SeriesLength": 221,
+            "TrainSize": 636,
+            "Horizon": 10,
+            "OutputColumnName": "SaleAmount",
+            "InputColumnName": "SaleAmount",
+            "ConfidenceLowerBoundColumn": "SaleAmount_LB",
+            "ConfidenceUpperBoundColumn": "SaleAmount_UB"
+          }
+        }
+      },
+      {
+        "Version": 1,
+        "Type": "Trial",
+        "TrainerName": "ForecastBySsa",
+        "Score": 2574.1073283412147,
+        "RuntimeInSeconds": 0.03,
+        "Parameter": {
+          "_SCHEMA_": "e0",
+          "e0": {
+            "WindowSize": 27,
+            "SeriesLength": 46,
+            "TrainSize": 636,
+            "Horizon": 10,
+            "OutputColumnName": "SaleAmount",
+            "InputColumnName": "SaleAmount",
+            "ConfidenceLowerBoundColumn": "SaleAmount_LB",
+            "ConfidenceUpperBoundColumn": "SaleAmount_UB"
+          }
+        }
+      },
+      {
+        "Version": 1,
+        "Type": "Trial",
+        "TrainerName": "ForecastBySsa",
+        "Score": 2574.1073283412147,
+        "RuntimeInSeconds": 0.025,
+        "Parameter": {
+          "_SCHEMA_": "e0",
+          "e0": {
+            "WindowSize": 27,
+            "SeriesLength": 50,
+            "TrainSize": 636,
+            "Horizon": 10,
+            "OutputColumnName": "SaleAmount",
+            "InputColumnName": "SaleAmount",
+            "ConfidenceLowerBoundColumn": "SaleAmount_LB",
+            "ConfidenceUpperBoundColumn": "SaleAmount_UB"
           }
         }
       }
     ],
     "Estimators": {
-      "e0": "FeaturizeText",
-      "e1": "ConvertType",
-      "e2": "Concatenate",
-      "e3": "FastTreeRegression",
-      "e4": "FastForestRegression",
-      "e5": "LightGbmRegression",
-      "e6": "LbfgsPoissonRegressionRegression",
-      "e7": "SdcaRegression"
+      "e0": "ForecastBySsa"
     },
-    "Schema": "e0 * e1 * e2 * (e3 + e4 + e5 + e6 + e7)",
-    "MetricName": "RSquared",
+    "Schema": "e0",
+    "MetricName": "RMSE",
     "ModelFilePath": "D:\\Documents\\Visual Studio 2022\\Projects\\TryMLNET\\TryMLNET\\ML\\MLModel.mlnet"
   },
   "Type": "TrainingConfig",
   "Version": 5,
   "TrainingOption": {
-    "Version": 2,
-    "Subsampling": true,
-    "Tuner": "eci-cfo",
-    "Type": "RegressionTrainingOption",
+    "Version": 3,
+    "OptimizeMetric": "RMSE",
+    "Subsampling": false,
+    "Type": "ForecastingTrainingOption",
     "TrainingTime": 60,
-    "OptimizeMetric": "RSquared",
+    "UseCrossValidation": false,
+    "Horizon": 10,
+    "TimeColumn": "MonthlySales",
     "LabelColumn": "SaleAmount",
-    "AvailableTrainers": [
-      "SDCA",
-      "LBFGS",
-      "LGBM",
-      "FASTTREE",
-      "FASTFOREST"
-    ],
+    "UseDefaultIndex": false,
     "ValidationOption": {
       "Version": 0,
       "Type": "CrossValidationValidationOption",
