@@ -29,9 +29,4 @@
       <DependentUpon>Northwind.tt</DependentUpon>
     </Compile>
   </ItemGroup>
-  <ItemGroup Label="MLModel">
-    <None Include="MLModel.mlnet">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
 </Project>

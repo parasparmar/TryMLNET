@@ -87,7 +87,7 @@ namespace TryMLNET
         public static IEstimator<ITransformer> BuildPipeline(MLContext mlContext)
         {
             // Data process configuration with pipeline data transformations
-            var pipeline = mlContext.Forecasting.ForecastBySsa(windowSize:27,seriesLength:105,trainSize:636,horizon:10,outputColumnName:@"SaleAmount",inputColumnName:@"SaleAmount",confidenceLowerBoundColumn:@"SaleAmount_LB",confidenceUpperBoundColumn:@"SaleAmount_UB");
+            var pipeline = mlContext.Forecasting.ForecastBySsa(windowSize:27,seriesLength:288,trainSize:636,horizon:10,outputColumnName:@"SaleAmount",inputColumnName:@"SaleAmount",confidenceLowerBoundColumn:@"SaleAmount_LB",confidenceUpperBoundColumn:@"SaleAmount_UB");
 
             return pipeline;
         }

@@ -48,12 +48,12 @@
         "Type": "Trial",
         "TrainerName": "ForecastBySsa",
         "Score": 2574.1073283412147,
-        "RuntimeInSeconds": 0.026,
+        "RuntimeInSeconds": 0.033,
         "Parameter": {
           "_SCHEMA_": "e0",
           "e0": {
             "WindowSize": 27,
-            "SeriesLength": 105,
+            "SeriesLength": 288,
             "TrainSize": 636,
             "Horizon": 10,
             "OutputColumnName": "SaleAmount",
@@ -68,12 +68,12 @@
         "Type": "Trial",
         "TrainerName": "ForecastBySsa",
         "Score": 2574.1073283412147,
-        "RuntimeInSeconds": 0.025,
+        "RuntimeInSeconds": 0.028,
         "Parameter": {
           "_SCHEMA_": "e0",
           "e0": {
             "WindowSize": 27,
-            "SeriesLength": 31,
+            "SeriesLength": 89,
             "TrainSize": 636,
             "Horizon": 10,
             "OutputColumnName": "SaleAmount",
@@ -93,7 +93,7 @@
           "_SCHEMA_": "e0",
           "e0": {
             "WindowSize": 27,
-            "SeriesLength": 221,
+            "SeriesLength": 84,
             "TrainSize": 636,
             "Horizon": 10,
             "OutputColumnName": "SaleAmount",
@@ -108,12 +108,12 @@
         "Type": "Trial",
         "TrainerName": "ForecastBySsa",
         "Score": 2574.1073283412147,
-        "RuntimeInSeconds": 0.03,
+        "RuntimeInSeconds": 0.027,
         "Parameter": {
           "_SCHEMA_": "e0",
           "e0": {
             "WindowSize": 27,
-            "SeriesLength": 46,
+            "SeriesLength": 100,
             "TrainSize": 636,
             "Horizon": 10,
             "OutputColumnName": "SaleAmount",
@@ -128,12 +128,12 @@
         "Type": "Trial",
         "TrainerName": "ForecastBySsa",
         "Score": 2574.1073283412147,
-        "RuntimeInSeconds": 0.025,
+        "RuntimeInSeconds": 0.032,
         "Parameter": {
           "_SCHEMA_": "e0",
           "e0": {
             "WindowSize": 27,
-            "SeriesLength": 50,
+            "SeriesLength": 99,
             "TrainSize": 636,
             "Horizon": 10,
             "OutputColumnName": "SaleAmount",

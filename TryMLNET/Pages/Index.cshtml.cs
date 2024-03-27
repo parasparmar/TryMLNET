@@ -26,7 +26,33 @@ namespace TryMLNET.Pages
 
         public void OnGet()
         {
-            var cstr = "Server=Mainframe-007;Database=Northwind;Trusted_Connection=True;";
+            var c = GetMonthlySalesForCustomer("ALFKI");
+
+            var outputSeries = new List<MLModel.ModelOutput>();
+            var dates = new List<DateTime>();
+            DateTime from = DateTime.Parse("1998-10-01");
+            DateTime to = DateTime.Parse("2000-10-01");
+            for (var dt = from; dt <= to; dt = dt.AddMonths(1))
+            {
+                dates.Add(dt);
+            }
+
+            foreach (var i in c)
+            {
+                outputSeries.Add(MLModel.Predict(new MLModel.ModelInput()
+                {
+                    SaleAmount = (float)i.SaleAmount
+                }));
+            }
+            ////results.Add($"Predicted Monthly Sales : {d.CustomerID}: {d.MonthlySales} : Sales Amount : {d.Score}");
+
+        }
+
+
+
+        private List<Customer> GetMonthlySalesForCustomer(string customerId)
+        {
+            string cstr = "Server=Mainframe-007;Database=Northwind;Trusted_Connection=True;";
 
             using (SqlConnection cn = new SqlConnection(cstr))
             {
@@ -38,11 +64,12 @@ namespace TryMLNET.Pages
                             FROM dbo.Orders AS A 
                             INNER JOIN dbo.[Order Details] AS B ON B.OrderID = A.OrderID
                             WHERE 1=1
-                            And CustomerID = 'ALFKI'
+                            And CustomerID = {{customerId}}
                             GROUP BY 
                             DATEFROMPARTS(YEAR(A.OrderDate), MONTH(A.OrderDate), 1)
                             , A.CustomerID
                             order by CustomerID, MonthlySales";
+                qry = qry.Replace("{{customerId}}", "'" + customerId+"'");
                 using (SqlCommand cmd = new SqlCommand(qry, cn))
                 {
                     SqlDataReader r = cmd.ExecuteReader();
@@ -50,7 +77,7 @@ namespace TryMLNET.Pages
                     {
                         Customers.Add(new Customer
                         {
-                            MonthlySales = ((DateTime)r.GetDateTime(0)).ToLocalTime(),
+                            MonthlySales = ((DateTime)r.GetDateTime(0)),
                             CustomerId = (string)r.GetSqlString(1),
                             SaleAmount = r.GetDouble(2)
                         });
@@ -59,40 +86,7 @@ namespace TryMLNET.Pages
                 if (!cn.State.Equals(ConnectionState.Closed))
                     cn.Close();
             }
-
-            var outputSeries = new List<MLModel.ModelOutput>();
-            var dates = new List<DateTime>();
-            DateTime from = DateTime.Parse("1998-10-01");
-            DateTime to = DateTime.Parse("2000-10-01");
-            for (var dt = from; dt <= to; dt = dt.AddMonths(1))
-            {
-                dates.Add(dt);
-            }
-
-            foreach (var i in Customers)
-            {
-                foreach (var d in dates)
-                {
-                    var j = new MLModel.ModelInput()
-                    {
-                        MonthlySales = d,
-                        CustomerID = i.CustomerId
-                    };
-                    outputSeries.Add(MLModel.Predict(j));
-                }
-            }
-
-            foreach (var d in outputSeries)
-            {
-                Customers.Add(new Customer
-                {
-                    CustomerId = d.CustomerID,
-                    MonthlySales =d.MonthlySales,
-                    SaleAmount = d.SaleAmount
-                });
-                results.Add($"Predicted Monthly Sales : {d.CustomerID}: {d.MonthlySales} : Sales Amount : {d.Score}");
-            }
+            return Customers;
         }
     }
 }
-
